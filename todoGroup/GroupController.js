@@ -1,10 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('example', 'dev', 'secret', {
-    dialect: 'mysql',
-    host: '127.0.0.1',
-    port:'3307'
-});
-const Group = require('./Groupmodel')(sequelize);
+const {Todo} = require('../model');
+const {Group} = require('../model');
 
 exports.GroupList = async (req, res) => {
     try {
@@ -16,15 +11,16 @@ exports.GroupList = async (req, res) => {
     }
   }
 
-// exports.GroupTodoList = async (req, res) => {
-//   try {
-//     const result = await Group.findAll({ where: { status: 'DONE' }});
-//     res.json(result);
-//   } catch (e) {
-//     //console.log(e);
-//     res.status(404).send("not found");
-//   }
-// }
+exports.GroupTodoList = async (req, res) => {
+  try {
+    const { groupId } = req.body;
+    const result = await Todo.findAll({ where: { groupId: groupId }});
+    res.json(result);
+  } catch (e) {
+    //console.log(e);
+    res.status(404).send("not found");
+  }
+}
 
 exports.GroupAdd = async (req, res) => {
   try {
@@ -39,15 +35,6 @@ exports.GroupAdd = async (req, res) => {
   }
   catch (error) {
     console.log('Error : ', error);
-  }
-}
-
-exports.prepareModel = async () => {
-  try {
-      await Group.sync({force:true});
-      console.log("group table 생성");
-  }
-  catch (error) {
-      console.log('Group.sync Error ', error);
+    res.json("그룹 add 실패");
   }
 }

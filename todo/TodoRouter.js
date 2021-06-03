@@ -1,9 +1,6 @@
 const express = require('express');
 const TodoRouter = express.Router();
-const {TodoList,TodoDoneList,TodoAdd,prepareModel,TodoDone} = require('./TodoController');
-
-//테이블준비
-TodoRouter.get('/TodoTable', prepareModel);
+const {TodoList,TodoDoneList,TodoAdd,TodoDone} = require('./TodoController');
 
 //전체 할일 보기
 TodoRouter.get('/TodoList', TodoList);

@@ -1,10 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('example', 'dev', 'secret', {
-    dialect: 'mysql',
-    host: '127.0.0.1',
-    port:'3307'
-});
-const Todo = require('./Todomodel')(sequelize);
+const {Todo} = require('../model');
+const {Group} = require('../model');
 
 exports.TodoList = async (req, res) => {
     try {
@@ -28,11 +23,19 @@ exports.TodoDoneList = async (req, res) => {
 
 exports.TodoAdd = async (req, res) => {
   try {
-    const { title, status } = req.body;
+    const { title, status, groupId } = req.body;
+    const group = await Group.findByPk(groupId);
+    //없는 그룹의 번호면 할일 추가 안함
+    if(!group)
+    {
+      throw new Error("Error");
+    }
     const ret = await Todo.create({
         title: title,
         status: status
     }, {logging: false});
+
+    await group.addTodo(ret);
     const newData = ret.dataValues;
     console.log(newData);
     console.log('Create success');
@@ -40,6 +43,7 @@ exports.TodoAdd = async (req, res) => {
   }
   catch (error) {
     console.log('Error : ', error);
+    res.json("할일 add 실패");
   }
 }
 
@@ -54,14 +58,6 @@ exports.TodoDone = async (req, res) => {
   }
   catch (error) {
     console.log('Error :', error);
-  }
-}
-
-exports.prepareModel = async () => {
-  try {
-      await Todo.sync({force:true});
-  }
-  catch (error) {
-      console.log('Todo.sync Error ', error);
+    res.json("끝낸 일로 업데이트 성공");
   }
 }
