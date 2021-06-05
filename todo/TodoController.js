@@ -53,11 +53,11 @@ exports.TodoDone = async (req, res) => {
     let result = await Todo.update(
         { status: 'DONE' },
         { where: { title: title }});
-    console.log('Modify success :', result);
-    res.send(result);
+    console.log('Modify success :', title , "noDONE -> DONE");
+    res.send("업데이트 성공");
   }
   catch (error) {
     console.log('Error :', error);
-    res.json("끝낸 일로 업데이트 성공");
+    res.json("끝낸 일로 업데이트 실패");
   }
 }
