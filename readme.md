@@ -16,7 +16,7 @@ get/ GroupList (그룹 리스트 불러오기)
 
 ##### Response 컨텐트 타입
 
-json
+application/json
 
 ##### Response 메세지 예
 
@@ -67,6 +67,7 @@ application/json
     }
 ]
 
+
 #### Method
 
 post/ GroupAdd (그룹 추가하기)
@@ -80,7 +81,6 @@ application/json
 {
    "title":"회사"
 }
-
 
 ##### Response 컨텐트 타입
 
@@ -122,6 +122,7 @@ application/json
     }
 ]
 
+
 ##### Method
 
 get/ TodoDoneList(다 한일 리스트 불러오기)
@@ -140,6 +141,7 @@ application/json
         "groupId": 1
     }
 ]
+
 
 #### Method
 
@@ -169,6 +171,7 @@ application/json
     "status": "DONE"
 }
 
+
 #### Method
 
 post/ TodoDone(할일 -> 완료한 일로 만들기)
@@ -183,7 +186,6 @@ application/json
     "title":"laravel 공부"
 }
 
-
 ##### Response 컨텐트 타입
 
 application/json
@@ -191,3 +193,28 @@ application/json
 ##### Response 메세지 예
 
 업데이트 성공
+
+- - -
+- - -
+
+##### 데이터베이스 설계
+
+###### Table name
+
+Groups
+
+###### Column
+
+id / INT(11) / primary Key, Auto Increment
+title / VARCHAR(100) / unique key
+
+###### Table name
+
+Todos
+
+###### Column
+
+id / INT(11) / primary Key, Auto Increment
+title / VARCHAR(100)
+status / VARCHAR(100)
+groupId / INT(11) / foreign Key
