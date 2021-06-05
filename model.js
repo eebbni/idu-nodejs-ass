@@ -6,8 +6,14 @@ const db = {};
 const sequelize = new Sequelize('example', 'dev', 'secret', { dialect: 'mysql', host: '127.0.0.1',port:3307 });
 
 const Group = sequelize.define('Group', {
-  title: Sequelize.STRING(100)
-}, { timestamps: false });
+   title: Sequelize.STRING(100)
+ }, { indexes: [
+    {
+        unique: true,
+        fields: ['title']
+    }
+ ],
+ timestamps: false });
 
 const Todo = sequelize.define('Todo', {
    title: Sequelize.STRING(100),
